@@ -3,15 +3,15 @@
 // icon-color: brown; icon-glyph: user-md;
 
 // WIDGET CONFIG
-const BACKGROUND_GRADIENT = true // Widget Hintergrund; true = Farbverlauf, false = einfarbig
+const BACKGROUND_GRADIENT = false // Widget Hintergrund; true = Farbverlauf, false = einfarbig
 
 // COLOR CONFIG
-const BACKGROUND_COLOR = "#0079e0" // Wird verwendet wenn BACKGROUND_GRADIENT = false
+const BACKGROUND_COLOR = "#1c1c1e" // Wird verwendet wenn BACKGROUND_GRADIENT = false
 const BACKGROUND_GRADIENT_COLOR_TOP = "#48484a" // Farbverlauf Farbe oben
 const BACKGROUND_GRADIENT_COLOR_BTM = "#2c2c2e" // Farbverlauf Farbe unten
 
 // JSON URL für Corona Pressemitteilungen (Wordpress Standard)
-const SAD_CORONA_PRESSE_URL = "https://corona.landkreis-schwandorf.de/wp-json/wp/v2/posts"
+const CORONA_PRESSE_URL = "https://corona.landkreis-schwandorf.de/wp-json/wp/v2/posts/?filter[category_name]=country&per_page=3"
 
 let widget = await createWidget()
 if (BACKGROUND_GRADIENT == false) {
@@ -31,31 +31,35 @@ async function createWidget(items) {
     
     // Header
     const header = list.addText('🦠 Presse SAD'.toUpperCase())
-    header.font = Font.systemFont(13)
+    header.font = Font.mediumSystemFont(13)
     list.addSpacer()
     
     if (data) {
         // Datum und Schlagzeile (kurz) der ersten News
         const label1Date = list.addText(convertDateString(data.firstNewsDate))
-        label1Date.font = Font.boldSystemFont(11)
-        const label1News = list.addText(data.firstNewsTitle.substring(0, 19)+"...")
-        label1News.font = Font.systemFont(10)
-       
+        label1Date.font = Font.heavySystemFont(10)
+        label1Date.textColor = Color.lightGray()
+        const label1News = list.addText(data.firstNewsTitle)
+        label1News.font = Font.boldSystemFont(11)
+        label1News.lineLimit = 1;
         list.addSpacer()
 
         // Datum und Schlagzeile (kurz) der zweiten News
         const label2Date = list.addText(convertDateString(data.secondNewsDate))
-        label2Date.font = Font.boldSystemFont(11)
-        const label2News = list.addText(data.secondNewsTitle.substring(0, 19)+"...")
-        label2News.font = Font.systemFont(10)
-        
+        label2Date.font = Font.heavySystemFont(10)
+        label2Date.textColor = Color.lightGray()
+        const label2News = list.addText(data.secondNewsTitle)
+        label2News.font = Font.boldSystemFont(11)
+        label2News.lineLimit = 1;
         list.addSpacer()
 
         // Datum und Schlagzeile (kurz) der dritten News
         const label3Date = list.addText(convertDateString(data.thirdNewsDate))
-        label3Date.font = Font.boldSystemFont(11)
-        const label3News = list.addText(data.thirdNewsTitle.substring(0, 19)+"...")
-        label3News.font = Font.systemFont(10)
+        label3Date.font = Font.heavySystemFont(10)
+        label3Date.textColor = Color.lightGray()
+        const label3News = list.addText(data.thirdNewsTitle)
+        label3News.font = Font.boldSystemFont(11)
+        label1News.lineLimit = 1;
     } else {
         const error_msg = list.addText("Keine Daten gefunden")
         error_msg.font = Font.systemFont(10)
@@ -71,13 +75,15 @@ async function createWidget(items) {
         list.backgroundGradient = gradient
     }
     
+    list.url = "https://corona.landkreis-schwandorf.de/pressemitteilungen"
+    
     return list
 }
 
 
 async function getData() {
     try {
-        let loadedJSON = await new Request(SAD_CORONA_PRESSE_URL).loadJSON();
+        let loadedJSON = await new Request(CORONA_PRESSE_URL).loadJSON();
         
         var firstNewsTitle = loadedJSON[0].title.rendered;
         firstNewsTitle = firstNewsTitle.replace("&#8211;", "-");
