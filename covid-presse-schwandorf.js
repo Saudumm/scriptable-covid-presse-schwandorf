@@ -1,7 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: brown; icon-glyph: user-md;
-// v1.1 coded by Saudumm (https://twitter.com/saudumm)
+// v1.1.1 coded by Saudumm (https://twitter.com/saudumm)
 // GitHub: https://github.com/Saudumm/scriptable-sad-covid-pressemitteilungen
 
 // WIDGET CONFIG
@@ -10,12 +10,12 @@ var SITE_NAME = '🦠 Presse SAD';
 
 // COLOR CONFIG
 const BG_GRADIENT = false // Widget Hintergrund; true = Farbverlauf, false = einfarbig
-const BG_COLOR = new Color("#1c1c1e");
+const BG_COLOR = Color.dynamic(new Color("#fefefe"), new Color("#1c1c1e"));
 const BG_GRADIENT_COLOR_TOP = new Color("#222222");
 const BG_GRADIENT_COLOR_BTM = new Color("#444444");
-const FONT_COLOR_SITENAME = Color.white();
-const FONT_COLOR_POST_DATE = Color.gray();
-const FONT_COLOR_HEADLINE = Color.white();
+const FONT_COLOR_SITENAME = Color.dynamic(new Color("#1c1c1e"), new Color("#fefefe"));
+const FONT_COLOR_POST_DATE = Color.dynamic(Color.darkGray(), Color.gray());
+const FONT_COLOR_HEADLINE = Color.dynamic(new Color("#1c1c1e"), new Color("#fefefe"));
 
 // DO NOT CHANGE ANYTHING BELOW!
 // Unless you know what you're doing.
